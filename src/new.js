@@ -10,7 +10,7 @@ function getGameStatus(squares){
         [0,3,6],
         [1,4,7],
         [2,5,8],
-        [0,4,8],
+        [0,4,6],
         [2,4,6]
     ];
 
@@ -81,12 +81,7 @@ class Display extends React.Component {
         if(this.props.gameStatus == null){
             gameTitle = "Next move for " + (this.props.stepNumber % 2 == 0 ? "X" : "O");
         } else {
-            if(this.props.gameStatus == "Draw") {
-                gameTitle = "It's a Draw";
-            } else {
-                gameTitle = this.props.gameStatus + " wins";
-            }
-            
+            gameTitle = this.props.gameStatus + "wins";
         }
 
         let buttons = [];
@@ -141,7 +136,7 @@ class TTT extends React.Component {
         let oldHistory = this.state.history.slice();  //clone
         let currentSquares = oldHistory[oldHistory.length - 1].slice();  //clone
 
-        if(currentSquares[i] != null || this.state.gameStatus != null){ //this.state.gameStatus != null, this enable can't move after win
+        if(currentSquares[i] != null){
             return;
         }
 
@@ -149,10 +144,6 @@ class TTT extends React.Component {
         oldHistory.push(currentSquares);
 
         let newGameStatus = getGameStatus(currentSquares);
-
-        if(this.state.stepNumber == 8 && newGameStatus == null) {
-            newGameStatus = "Draw";
-        }
 
         this.setState({
             history: oldHistory,
